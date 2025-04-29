@@ -303,28 +303,40 @@ document.getElementById("save").addEventListener("click", () => {
   const warmInput = document.getElementById("warmInput");
   const errorSpan = document.querySelector(".error");
 
-  if (coolInput.value && warmInput.value) {
-    // Validate the data
-    if (coolInput.value < 10 || coolInput.value > 25) {
-      errorSpan.style.display = "block";
-      errorSpan.innerText = "Enter valid temperatures (10° - 32°)";
-    }
+  const cool = parseInt(coolInput.value);
+  const warm = parseInt(warmInput.value);
 
-    if (warmInput.value < 25 || warmInput.value > 32) {
-      errorSpan.style.display = "block";
-      errorSpan.innerText = "Enter valid temperatures (10° - 32°)";
-    }
-    // Validation passed
-    // Set current room's presets
-    const currRoom = rooms.find((room) => room.name === selectedRoom);
+  // Clear previous error
+  errorSpan.style.display = "none";
+  errorSpan.innerText = "";
 
-    currRoom.setColdPreset(coolInput.value);
-    currRoom.setWarmPreset(warmInput.value);
-
-    coolInput.value = "";
-    warmInput.value = "";
+  if (!cool || !warm) {
+    errorSpan.style.display = "block";
+    errorSpan.innerText = "Please enter both temperatures.";
+    return;
   }
+
+  if (cool < 10 || cool > 25) {
+    errorSpan.style.display = "block";
+    errorSpan.innerText = "Cool preset must be between 10° and 25°";
+    return;
+  }
+
+  if (warm < 25 || warm > 32) {
+    errorSpan.style.display = "block";
+    errorSpan.innerText = "Warm preset must be between 25° and 32°";
+    return;
+  }
+
+  // All checks passed — save presets
+  const currRoom = rooms.find((room) => room.name === selectedRoom);
+  currRoom.setColdPreset(cool);
+  currRoom.setWarmPreset(warm);
+
+  coolInput.value = "";
+  warmInput.value = "";
 });
+
 
 // Rooms Control
 // Generate rooms
