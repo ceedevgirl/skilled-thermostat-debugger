@@ -241,7 +241,7 @@ svg.point {
 #warm:hover,
 #reduce:hover,
 #increase:hover {
-  background-color: #c2c2c2;
+  background-color: pink;
 }
 
 .controls {
