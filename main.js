@@ -203,7 +203,7 @@ document.querySelector(".currentTemp").innerText = `${rooms[0].currTemp}°`;
 // Add new options from rooms array
 rooms.forEach((room) => {
   const option = document.createElement("option");
-  option.value = room;
+  option.value = room.name; // Use name value
   option.textContent = room.name;
   roomSelect.appendChild(option);
 });
@@ -235,7 +235,24 @@ roomSelect.addEventListener("change", function () {
 
 // Set preset temperatures
 const defaultSettings = document.querySelector(".default-settings");
-defaultSettings.addEventListener("click", function (e) {});
+defaultSettings.addEventListener("click", function (e) {
+    const room = rooms.find((r) => r.name === selectedRoom);
+  
+    if (e.target.closest("#cool")) {
+      room.setCurrTemp(room.coldPreset);
+    }
+  
+    if (e.target.closest("#warm")) {
+      room.setCurrTemp(room.warmPreset);
+    }
+  
+    // Update the UI
+    setIndicatorPoint(room.currTemp);
+    currentTemp.textContent = `${room.currTemp}°`;
+    document.querySelector(".currentTemp").innerText = `${room.currTemp}°`;
+    setOverlay(room);
+    
+});
 
 // Increase and decrease temperature
 document.getElementById("increase").addEventListener("click", () => {
