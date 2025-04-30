@@ -255,47 +255,31 @@ defaultSettings.addEventListener("click", function (e) {
 });
 
 // Increase and decrease temperature
+// Update increase/decrease functions
 document.getElementById("increase").addEventListener("click", () => {
   const room = rooms.find((currRoom) => currRoom.name === selectedRoom);
-  const increaseRoomTemperature = room.increaseTemp;
-
-  if (room.currTemp < 32) {
-    increaseRoomTemperature();
-  }
-
-  setIndicatorPoint(room.currTemp);
-  currentTemp.textContent = `${room.currTemp}°`;
-
-  generateRooms();
-
-  setOverlay(room);
-
-  warmBtn.style.backgroundColor = "#d9d9d9";
-  coolBtn.style.backgroundColor = "#d9d9d9";
-
-  document.querySelector(".currentTemp").innerText = `${room.currTemp}°`;
+  if (room.currTemp >= 32) return; // Early return if at max
+  
+  room.increaseTemp();
+  updateRoomUI(room); //Helper function to consolidate UI updates
 });
 
 document.getElementById("reduce").addEventListener("click", () => {
   const room = rooms.find((currRoom) => currRoom.name === selectedRoom);
-  const decreaseRoomTemperature = room.decreaseTemp;
+  if (room.currTemp <= 10) return; // Early return if at min
+  
+  room.decreaseTemp();
+  updateRoomUI(room);
+});
 
-  if (room.currTemp > 10) {
-    decreaseRoomTemperature();
-  }
-
+// Helper function
+function updateRoomUI(room) {
   setIndicatorPoint(room.currTemp);
   currentTemp.textContent = `${room.currTemp}°`;
-
-  generateRooms();
-
-  setOverlay(room);
-
-  warmBtn.style.backgroundColor = "#d9d9d9";
-  coolBtn.style.backgroundColor = "#d9d9d9";
-
   document.querySelector(".currentTemp").innerText = `${room.currTemp}°`;
-});
+  setOverlay(room);
+  generateRooms();
+}
 
 const coolBtn = document.getElementById("cool");
 const warmBtn = document.getElementById("warm");
