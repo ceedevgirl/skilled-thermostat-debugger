@@ -21,18 +21,40 @@
     <!-- CSS -->
     <link rel="stylesheet" href="style.css" />
 
-    <!-- JS -->
-    <script src="./main.js" defer></script>
-
+   
     <title>Smart Home | Thermostat Widget</title>
   </head>
   <body>
     <div class="main-container">
       <div class="container animate__animated animate__fadeInUp">
         <div class="top-content">
-          <h1 class="logo">Thermostat</h1>
+          <div class="top-left">
+            <h1 class="logo">Thermostat</h1>
+            <div class="button-group">
+              <button id="turnOnAll" class="btn-primary btn-icon">
+                <ion-icon name="power-outline"></ion-icon>Turn On All ACs
+              </button>
+              <button id="addRoomToggle" class="btn-secondary btn-icon">
+                <ion-icon name="add-outline"></ion-icon>Add Room
+              </button>
+            </div>
+          </div>
+        
           <select id="rooms"></select>
         </div>
+        
+        <div id="roomDropdown" class="dropdown hidden">
+          <h4>Add New Room</h4>
+          <input type="text" id="roomNameInput" placeholder="Room Name" />
+          <input type="number" id="roomTempInput" placeholder="Initial Temp" min="10" max="32" />
+          <input type="text" id="roomImageInput" placeholder="Image Path" />
+          <div class="dropdown-buttons">
+            <button id="cancelAddRoom" class="btn-secondary btn-icon">Cancel</button>
+            <button id="addRoomBtn" class="btn-primary btn-icon">Add Room</button>
+          </div>
+        </div>
+        
+        
         <!-- Interior card -->
         <div class="room">
           <div class="text">
@@ -119,11 +141,13 @@
         </div>
       </div>
 
+    
       <div
-        class="container rooms-control animate__animated animate__fadeIn"
-      ></div>
+        class="container rooms-control animate__animated animate__fadeIn">
+      </div>
     </div>
 
+    
     <!-- Ionicons -->
     <script
       type="module"
@@ -133,5 +157,8 @@
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
+
+     <!-- JS -->
+     <script src="./main.js" defer></script>
   </body>
 </html>
