@@ -207,3 +207,8 @@ function generateRooms() {
     )
     .join("");
 }
+
+
+populateRoomDropdown();         // Fill room dropdown options
+setSelectedRoom(selectedRoom);  // Display initial room UI
+generateRooms();                // Render control panels for all rooms
