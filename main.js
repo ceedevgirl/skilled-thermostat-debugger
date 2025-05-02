@@ -136,3 +136,42 @@ function populateRoomDropdown() {
     roomSelect.appendChild(option);
   });
 }
+
+/**
+ * Generates visual time bars based on the room's active AC hours.
+ */
+function generateBars(room) {
+  const totalBars = 32;
+  const timeToMinutes = (time) => {
+    const [h, m] = time.split(":" ).map(Number);
+    return h * 60 + m;
+  };
+
+  const startMinutes = timeToMinutes(room.startTime);
+  const endMinutes = timeToMinutes(room.endTime);
+  const isOvernight = endMinutes <= startMinutes;
+  const minutesPerBar = 1440 / totalBars;
+
+  let barsHTML = '';
+  for (let i = 0; i < totalBars; i++) {
+    const barMinute = i * minutesPerBar;
+    const isActive = isOvernight
+      ? barMinute >= startMinutes || barMinute < endMinutes
+      : barMinute >= startMinutes && barMinute < endMinutes;
+    barsHTML += `<span class="bar${isActive ? " active" : ""}"></span>`;
+  }
+  return barsHTML;
+}
+
+/**
+ * Renders the time bar and labels for a room.
+ */
+function displayTime(room) {
+  return `
+    <div class="time-display">
+      <span class="time start-time" data-room="${room.name}">${room.startTime}</span>
+      <div class="bars">${generateBars(room)}</div>
+      <span class="time end-time" data-room="${room.name}">${room.endTime}</span>
+    </div>
+  `;
+}
