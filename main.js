@@ -92,3 +92,47 @@ function setRoomBackground(room) {
   const overlay = room.currTemp < 25 ? warmOverlay : coolOverlay;
   document.querySelector(".room").style.backgroundImage = `${overlay}, url('${room.image}')`;
 }
+
+
+/**
+ * Sets the selected room based on dropdown choice and updates the UI.
+ */
+function setSelectedRoom(name) {
+  const room = rooms.find((r) => r.name === name);
+  if (!room) return;
+  selectedRoom = room.name;
+  setIndicatorPoint(room.currTemp);
+  updateTemperatureUI(room.currTemp);
+  setRoomBackground(room);
+  document.querySelector(".room-name").innerText = room.name;
+
+  // Reset preset button states
+  coolBtn.classList.remove("active");
+  warmBtn.classList.remove("active");
+
+  if (room.currTemp === room.coldPreset) {
+    coolBtn.classList.add("active");
+  } else if (room.currTemp === room.warmPreset) {
+    warmBtn.classList.add("active");
+  }
+}
+
+/**
+ * Show or hide the custom preset input form.
+ */
+function togglePresetInputs(show) {
+  inputsDiv.classList.toggle("hidden", !show);
+}
+
+/**
+ * Populates the dropdown menu with available rooms.
+ */
+function populateRoomDropdown() {
+  roomSelect.innerHTML = "";
+  rooms.forEach((room) => {
+    const option = document.createElement("option");
+    option.value = room.name;
+    option.textContent = room.name;
+    roomSelect.appendChild(option);
+  });
+}
