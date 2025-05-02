@@ -11,6 +11,9 @@
   --cool-blue: #4458c3;
   --warm-red: #ec6062;
   --accent: #ffd7a8;
+  --cool-light-blue: #a8c0ff;
+  --warm-light-red: #ffb3b3;
+  --bg-gray: #d9d9d9;
 }
 
 body,
@@ -22,6 +25,10 @@ button {
   color: var(--text-primary);
 }
 
+select, option{
+  font-size: 1rem;
+}
+
 body {
   padding: 50px 0;
   min-height: 100vh;
@@ -29,6 +36,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 .container {
@@ -36,7 +44,6 @@ body {
   background-color: #ffffff;
   border-radius: 8px;
   cursor: pointer;
-  width: 450px;
 }
 
 .main-container {
@@ -83,16 +90,14 @@ body {
 
 .temperature {
   position: relative;
-  /* border: solid 2px pink; */
+ 
 }
 
 .temperature svg {
-  /* border: solid 1px black; */
   position: absolute;
   left: -100px;
   top: -68px;
   height: 250px;
-  /* margin: 50px 0 50px 0; */
   display: none;
 }
 .indicator {
@@ -101,15 +106,12 @@ body {
 }
 
 svg.point {
-  /* display: none; */
-  /* border: solid 1px pink; */
   position: absolute;
   left: 38px;
   top: 40px;
   height: 24px;
   z-index: 10;
   transition: transform 0.2s ease-in-out;
-  /* transform: translate(18px, -60px); */
 }
 
 #temp {
@@ -237,12 +239,20 @@ svg.point {
   gap: 5px;
 }
 
-#cool:hover,
-#warm:hover,
-#reduce:hover,
-#increase:hover {
-  background-color: pink;
+#cool, #warm {
+  transition: background-color 0.3s ease;
 }
+
+#cool.active {
+  background-color: var(--cool-light-blue);
+  color: var(--cool-blue);
+}
+
+#warm.active {
+  background-color: var(--warm-light-red);
+  color: var(--warm-red);
+}
+
 
 .controls {
   margin: 20px 0 0 0;
@@ -254,11 +264,11 @@ svg.point {
 }
 
 .buttons {
-  /* border: solid 1px pink; */
   display: flex;
   justify-content: center;
   gap: 15px;
 }
+
 #reduce,
 #increase {
   border: none;
@@ -278,7 +288,6 @@ svg.point {
   height: 200px;
   margin: 0 0 30px 0;
   position: relative;
-  /* background-image: url("./assets/living-room.jpg"); */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -286,6 +295,7 @@ svg.point {
   padding: 20px;
   transition: background 0.2s ease-in;
 }
+
 .room .text {
   display: flex;
   justify-content: space-between;
@@ -344,11 +354,10 @@ svg.point {
   padding: 10px 20px;
   border-radius: 26px;
   font-size: 14px;
+  position: relative;
 }
 
 .bars {
-  /* border: solid 1px pink; */
-  /* width: 100%; */
   display: flex;
   justify-content: space-between;
   gap: 5px;
@@ -369,17 +378,188 @@ svg.point {
   padding-left: 10px; /* Add spacing between times */
 }
 
-@media only screen and (max-width: 470px) {
-  .container {
-    width: 360px;
-  }
+.dropdown {
+  position: absolute;
+  top: 80px;
+  right: 30px;
+  background-color: white;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  z-index: 100;
+  width: 280px;
+  animation: fadeIn 0.3s ease;
 }
 
-@media only screen and (max-width: 380px) {
-  .container {
-    width: 320px;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+
+.dropdown h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.dropdown input {
+  display: block;
+  margin-bottom: 1rem;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: border-color 0.2s ease;
+  font-family: "Manrope", sans-serif;
+  text-align: center;
+}
+
+.dropdown input:focus {
+  outline: none;
+  border-color: var(--cool-blue);
+  box-shadow: 0 0 0 2px rgba(68, 88, 195, 0.1);
+}
+
+.dropdown-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+.dropdown-buttons button {
+  flex: 1;
+  padding: 0.75rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.status-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.room-status {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.remove-room {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #c00;
+  padding: 0.3rem;
+}
+
+.remove-room ion-icon {
+  font-size: 1.2rem;
+}
+
+.top-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.top-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Button Group Styles */
+.button-group {
+  display: flex;
+  gap: 10px;
+  align-items: left;
+}
+
+/* Primary Button */
+.btn-primary {
+  background-color: var(--cool-blue);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+  background-color: var(--cool-light-blue);
+  color: var(--text-primary);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: var(--bg-gray);
+  color: var(--text-primary);
+  border: 1px solid var(--bg-gray);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-light);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+/* Button with icon */
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 14px;
+  padding: 6px 12px;
+}
+
+.btn-icon ion-icon {
+  font-size: 14px;
+}
+
+/* Animations for buttons */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(68, 88, 195, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(68, 88, 195, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(68, 88, 195, 0); }
+}
+
+.btn-primary.pulse {
+  animation: pulse 1.5s infinite;
+}
+
 
 .powerOn {
   color: #ffae33;
@@ -387,7 +567,57 @@ svg.point {
 
 span.room-status {
   display: block;
-  /* border: solid 1px pink; */
   margin: 20px 0 0 0;
   color: #7c7c83;
+}
+
+/* mobile */
+@media (max-width: 480px) {
+  .main-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  .button-group {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    
+    justify-content: left; 
+    padding: 10px; 
+  }
+
+  .btn-secondary{
+    width: 120px; 
+    max-width: 100%; 
+  }
+
+  .btn-primary{
+  width: 150px; 
+    max-width: 100%; 
+  }
+}
+
+/* Tablet: 480px–768px */
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column; 
+    gap: 20px; 
+   
+    
+  }
+
+  .container {
+    width: 100%; 
+  }
+
 }
