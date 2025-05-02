@@ -175,3 +175,35 @@ function displayTime(room) {
     </div>
   `;
 }
+
+/**
+ * Renders the control panel for all rooms.
+ */
+function generateRooms() {
+  const container = document.querySelector(".rooms-control");
+  container.innerHTML = rooms
+    .map(
+      (room) => `
+      <div class="room-control" id="${room.name}">
+        <div class="top">
+          <h3 class="room-name">${room.name} - ${room.currTemp}°</h3>
+          <div class="room-actions">
+            <button class="switch">
+              <ion-icon name="power-outline" class="${room.airConditionerOn ? "powerOn" : ""}"></ion-icon>
+            </button>
+          </div>
+        </div>
+        ${displayTime(room)}
+        <div class="status-wrapper" style="display: ${room.airConditionerOn ? "flex" : "none"}">
+          <span class="room-status">
+            ${room.currTemp < 25 ? "Cooling room to:" : "Warming room to:"} ${room.currTemp}°
+          </span>
+          <button class="remove-room" title="Remove Room">
+            <ion-icon name="trash-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+    `
+    )
+    .join("");
+}
