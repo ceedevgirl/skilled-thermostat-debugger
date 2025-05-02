@@ -83,3 +83,16 @@ function generateRooms() {
     .join("");
 }
 
+// Constants
+const warmOverlay = `linear-gradient(to bottom, rgba(141, 158, 247, 0.2), rgba(194, 197, 215, 0.1))`;
+const coolOverlay = `linear-gradient(to bottom, rgba(236, 96, 98, 0.2), rgba(248, 210, 211, 0.13))`;
+
+//dom-references
+const svgPoint = document.querySelector(".point");
+const roomSelect = document.getElementById("rooms");
+const currentTemp = document.getElementById("temp");
+const coolBtn = document.getElementById("cool");
+const warmBtn = document.getElementById("warm");
+const inputsDiv = document.querySelector(".inputs");
+
+let selectedRoom = rooms[0].name;
