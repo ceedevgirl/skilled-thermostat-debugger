@@ -96,3 +96,43 @@ const warmBtn = document.getElementById("warm");
 const inputsDiv = document.querySelector(".inputs");
 
 let selectedRoom = rooms[0].name;
+
+/**
+ * temperature-logic
+ * Calculates the X and Y translation for the temperature dial indicator.
+ */
+function calculatePointPosition(currTemp) {
+  const normalized = (currTemp - 10) / 22;
+  const angle = normalized * 180 + 86;
+  const radians = (angle * Math.PI) / 180;
+  const radius = 116;
+  return {
+    translateX: radius * Math.cos(radians),
+    translateY: radius * Math.sin(radians),
+  };
+}
+
+/**
+ * Moves the SVG indicator on the temperature dial to match the current temperature.
+ */
+function setIndicatorPoint(temp) {
+  const { translateX, translateY } = calculatePointPosition(temp);
+  svgPoint.style.transform = `translate(${translateX}px, ${translateY}px)`;
+}
+
+/**
+ * Updates the temperature text display in the UI.
+ */
+function updateTemperatureUI(temp) {
+  currentTemp.textContent = `${temp}°`;
+  document.querySelector(".currentTemp").innerText = `${temp}°`;
+}
+
+/**
+ * Changes the room background based on the current temperature.
+ */
+function setRoomBackground(room) {
+  const overlay = room.currTemp < 25 ? warmOverlay : coolOverlay;
+  document.querySelector(".room").style.backgroundImage = `${overlay}, url('${room.image}')`;
+}
+
